@@ -4,7 +4,6 @@ import path from 'node:path';
 import { performance } from 'node:perf_hooks';
 import { fileURLToPath } from 'node:url';
 import { SubdomainStore } from './lib/db.ts';
-import { isAllowedDomain, parseAllowedDomains } from './lib/allowedDomains.ts';
 import {
   extractCertSpotterSubdomains,
   extractCrtSubdomains,
@@ -24,7 +23,6 @@ const HACKERTARGET_URL = 'https://api.hackertarget.com/hostsearch/';
 const CRT_TIMEOUT_MS = 8_000;
 const FAST_SOURCE_TIMEOUT_MS = 6_000;
 const RECON_USER_AGENT = 'Mozilla/5.0 (compatible; subjedi/1.0)';
-const allowedDomains = parseAllowedDomains(process.env.ALLOWED_DOMAINS);
 
 const store = new SubdomainStore();
 store.init();
@@ -211,17 +209,6 @@ api.get('/v1/search', async (req, res) => {
     return;
   }
 
-  if (allowedDomains.size === 0) {
-    res.status(503).json({
-      detail: 'Skan API deaktivdir. ALLOWED_DOMAINS mühit dəyişənini qurun.',
-    });
-    return;
-  }
-  if (!isAllowedDomain(normalizedApex, allowedDomains)) {
-    res.status(403).json({ detail: 'Bu domen ALLOWED_DOMAINS siyahısında deyil.' });
-    return;
-  }
-
   const cachedEntry = store.getCached(normalizedApex);
   let isCached = false;
   let isStale = false;
@@ -314,22 +301,10 @@ api.post('/v1/probe', async (req, res) => {
     return;
   }
 
-  if (allowedDomains.size === 0) {
-    res.status(503).json({
-      detail: 'Skan API deaktivdir. ALLOWED_DOMAINS mühit dəyişənini qurun.',
-    });
-    return;
-  }
   for (const target of uniqueTargets) {
     const host = isValidProbeTarget(target);
     if (!host) {
       res.status(400).json({ detail: 'Etibarsız subdomen adı.' });
-      return;
-    }
-    if (!isAllowedDomain(host, allowedDomains)) {
-      res.status(403).json({
-        detail: 'Bütün yoxlama hədəfləri ALLOWED_DOMAINS daxilində olmalıdır.',
-      });
       return;
     }
   }
