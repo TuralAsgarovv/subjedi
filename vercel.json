@@ -5,7 +5,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "functions": {
-    "api/[...path].ts": {
+    "api/v1/*.ts": {
       "maxDuration": 60
     }
   },
