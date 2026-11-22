@@ -1,6 +1,6 @@
-# Subjedi
+# Subsaber
 
-Subjedi is a small web application for passive subdomain discovery from public Certificate Transparency and DNS lookup sources, with optional HTTP status checks.
+Subsaber is a small web application for passive subdomain discovery from public Certificate Transparency and DNS lookup sources, with optional HTTP status checks.
 
 > Use it only for domains you own or are explicitly authorized to assess.
 

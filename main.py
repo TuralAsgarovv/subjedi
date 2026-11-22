@@ -26,7 +26,7 @@ CRT_SH_URL = "https://crt.sh/"
 CERTSPOTTER_URL = "https://api.certspotter.com/v1/issuances"
 HACKERTARGET_URL = "https://api.hackertarget.com/hostsearch/"
 RECON_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; subjedi/1.0)",
+    "User-Agent": "Mozilla/5.0 (compatible; subsaber/1.0)",
     "Accept": "application/json,text/plain,*/*",
 }
 CRT_TIMEOUT_SECONDS = 8.0
@@ -36,7 +36,7 @@ BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
 
 app = FastAPI(
-    title="subjedi",
+    title="subsaber",
     description="Subdomen kəşfiyyatı və canlı status yoxlama servisi",
     version="1.0.0",
 )

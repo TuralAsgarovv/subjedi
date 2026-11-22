@@ -22,7 +22,7 @@ const CERTSPOTTER_URL = 'https://api.certspotter.com/v1/issuances';
 const HACKERTARGET_URL = 'https://api.hackertarget.com/hostsearch/';
 const CRT_TIMEOUT_MS = 8_000;
 const FAST_SOURCE_TIMEOUT_MS = 6_000;
-const RECON_USER_AGENT = 'Mozilla/5.0 (compatible; subjedi/1.0)';
+const RECON_USER_AGENT = 'Mozilla/5.0 (compatible; subsaber/1.0)';
 
 const store = new SubdomainStore();
 store.init();
@@ -349,6 +349,6 @@ export default app;
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`subjedi server running at http://0.0.0.0:${PORT}`);
+    console.log(`subsaber server running at http://0.0.0.0:${PORT}`);
   });
 }

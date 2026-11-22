@@ -1,8 +1,8 @@
 {
-  "name": "subjedi",
+  "name": "subsaber",
   "private": true,
   "version": "1.0.0",
-  "description": "Passive subdomain discovery and HTTP status checks for authorized domains.",
+  "description": "Subsaber — passive subdomain discovery and HTTP status checks for authorized domains.",
   "type": "module",
   "engines": {
     "node": "22.x"
