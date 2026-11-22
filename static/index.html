@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="az" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>subjedi — Subdomen Kəşfiyyatı</title>
+    <meta
+      name="description"
+      content="Əsas domen üzrə subdomenlərin sürətli aşkarlanması, normallaşdırılması və canlı HTTP status yoxlanışı."
+    />
+    <meta property="og:title" content="subjedi — Subdomen Kəşfiyyatı" />
+    <meta
+      property="og:description"
+      content="Əsas domen üzrə subdomenlərin sürətli aşkarlanması, normallaşdırılması və canlı HTTP status yoxlanışı."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="min-h-screen bg-zinc-950 text-zinc-100 antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
+    <!-- Top Bar (3-zone contract) -->
+    <header class="border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-sm">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between gap-8 px-4 sm:px-6">
+        <a
+          href="/"
+          class="text-lg font-semibold tracking-tight text-zinc-100 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm"
+        >
+          sub<span class="text-emerald-400">jedi</span>
+        </a>
+
+        <nav class="hidden sm:flex items-center gap-6 text-sm text-zinc-400" aria-label="Əsas menyu">
+          <a
+            href="#search"
+            class="hover:text-zinc-100 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm"
+          >
+            Axtarış
+          </a>
+          <a
+            href="#results"
+            class="hover:text-zinc-100 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm"
+          >
+            Nəticələr
+          </a>
+        </nav>
+
+        <div class="flex items-center shrink-0">
+          <a
+            href="#search"
+            class="inline-flex items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs font-medium text-zinc-200 hover:border-emerald-500/50 hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          >
+            Yeni axtarış
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 space-y-10">
+      <!-- Hero Search Section -->
+      <section id="search" class="space-y-6">
+        <div class="space-y-2.5 max-w-2xl">
+          <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-50 text-balance">
+            Passiv Subdomen Kəşfiyyatı
+          </h1>
+          <p class="text-sm sm:text-base text-zinc-400 leading-relaxed">
+            Əsas domen üzrə subdomenlərin sürətli aşkarlanması, normallaşdırılması və canlı HTTP status yoxlanışı.
+          </p>
+        </div>
+
+        <form id="search-form" class="space-y-3" novalidate>
+          <label for="domain-input" class="sr-only">Domen və ya URL</label>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-1">
+              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-zinc-500">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.3-4.3"></path>
+                </svg>
+              </div>
+              <input
+                id="domain-input"
+                name="apex"
+                type="text"
+                inputmode="url"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="example.com və ya https://*.api.example.com/path"
+                class="w-full h-12 rounded-lg border border-zinc-800 bg-zinc-900/80 pl-11 pr-4 font-mono text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-colors"
+              />
+            </div>
+
+            <button
+              id="search-submit"
+              type="submit"
+              class="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-emerald-400 px-6 text-sm font-semibold text-zinc-950 hover:bg-emerald-300 active:bg-emerald-500 disabled:opacity-60 disabled:cursor-not-allowed transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+            >
+              <svg
+                id="search-spinner"
+                class="hidden h-4 w-4 animate-spin motion-reduce:animate-none"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+                <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8v3a5 5 0 00-5 5H4z"></path>
+              </svg>
+              <span id="search-submit-label">Axtar</span>
+            </button>
+          </div>
+
+          <!-- Sample Domains & Live Metadata Row -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs text-zinc-500">Nümunələr:</span>
+              <button
+                type="button"
+                data-sample="openai.com"
+                class="sample-chip rounded-md border border-zinc-800 bg-zinc-900/70 px-3 py-1.5 font-mono text-xs text-zinc-300 hover:border-emerald-400/50 hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+              >
+                openai.com
+              </button>
+              <button
+                type="button"
+                data-sample="github.com"
+                class="sample-chip rounded-md border border-zinc-800 bg-zinc-900/70 px-3 py-1.5 font-mono text-xs text-zinc-300 hover:border-emerald-400/50 hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+              >
+                github.com
+              </button>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 text-xs text-zinc-400 font-mono tabular-nums">
+              <span id="stats-meta">İndeks: 0 apex · 0 subdomen</span>
+              <span id="speed-sep" class="hidden text-zinc-600" aria-hidden="true">·</span>
+              <span id="speed-meta" class="hidden text-emerald-400"></span>
+            </div>
+          </div>
+        </form>
+
+        <!-- Error Banner -->
+        <div
+          id="error-banner"
+          role="alert"
+          class="hidden flex items-start gap-3 rounded-lg border border-rose-500/40 bg-rose-950/30 px-4 py-3 text-sm text-rose-200"
+        >
+          <svg class="mt-0.5 h-4 w-4 shrink-0 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <p id="error-message" class="leading-relaxed"></p>
+        </div>
+      </section>
+
+      <!-- Results Workspace -->
+      <section id="results" class="rounded-xl border border-zinc-800/90 bg-zinc-900/35 overflow-hidden">
+        <!-- Results Toolbar -->
+        <div
+          id="results-toolbar"
+          class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-zinc-800/80 bg-zinc-900/60 px-4 py-3"
+        >
+          <div class="flex flex-1 items-center gap-3 min-w-0">
+            <label for="filter-input" class="sr-only">Subdomenləri süzgəcdən keçir</label>
+            <div class="relative flex-1 max-w-sm">
+              <input
+                id="filter-input"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                disabled
+                placeholder="Süzgəc: api, dev, staging..."
+                class="w-full h-10 rounded-lg border border-zinc-800 bg-zinc-950/80 px-3.5 font-mono text-xs text-zinc-100 placeholder:text-zinc-500 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              />
+            </div>
+            <span
+              id="results-counter"
+              class="font-mono tabular-nums text-xs text-zinc-400 whitespace-nowrap shrink-0"
+            >
+              0 / 0
+            </span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <button
+              id="probe-btn"
+              type="button"
+              disabled
+              class="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3.5 text-xs font-medium text-emerald-300 hover:bg-emerald-500/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              <svg
+                id="probe-spinner"
+                class="hidden h-3.5 w-3.5 animate-spin motion-reduce:animate-none"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+                <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8v3a5 5 0 00-5 5H4z"></path>
+              </svg>
+              <span id="probe-btn-label">Statusları yoxla</span>
+            </button>
+            <button
+              id="copy-all-btn"
+              type="button"
+              disabled
+              class="inline-flex h-10 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-950/80 px-3.5 text-xs font-medium text-zinc-200 hover:border-emerald-400/50 hover:text-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              Kopyala
+            </button>
+            <button
+              id="download-txt-btn"
+              type="button"
+              disabled
+              class="inline-flex h-10 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-950/80 px-3.5 font-mono text-xs font-medium text-zinc-200 hover:border-emerald-400/50 hover:text-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              .TXT
+            </button>
+            <button
+              id="download-json-btn"
+              type="button"
+              disabled
+              class="inline-flex h-10 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-950/80 px-3.5 font-mono text-xs font-medium text-zinc-200 hover:border-emerald-400/50 hover:text-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              .JSON
+            </button>
+          </div>
+        </div>
+
+        <!-- Status Filter Sub-Bar -->
+        <div
+          id="status-filter-bar"
+          class="hidden flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800/80 bg-zinc-950/50 px-4 py-2"
+        >
+          <div class="flex flex-wrap items-center gap-1" role="group" aria-label="Status süzgəci">
+            <button
+              type="button"
+              data-status-filter="all"
+              aria-pressed="true"
+              class="status-filter-btn rounded-md bg-zinc-800 px-2.5 py-1 text-xs font-medium text-zinc-100 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              Hamısı
+            </button>
+            <button
+              type="button"
+              data-status-filter="active"
+              aria-pressed="false"
+              class="status-filter-btn rounded-md px-2.5 py-1 text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              Aktiv (2xx/3xx)
+            </button>
+            <button
+              type="button"
+              data-status-filter="reachable"
+              aria-pressed="false"
+              class="status-filter-btn rounded-md px-2.5 py-1 text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              Cavab verən
+            </button>
+            <button
+              type="button"
+              data-status-filter="dead"
+              aria-pressed="false"
+              class="status-filter-btn rounded-md px-2.5 py-1 text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              İşləməyən
+            </button>
+          </div>
+          <div id="probe-summary" class="font-mono tabular-nums text-xs text-zinc-400 whitespace-nowrap"></div>
+        </div>
+
+        <!-- Ready State -->
+        <div id="state-ready" class="px-6 py-14 text-center space-y-2.5">
+          <p class="text-sm font-medium text-zinc-200">
+            Axtarışa başlamaq üçün domen adı daxil edin
+          </p>
+          <p class="mx-auto max-w-md text-xs text-zinc-400 leading-relaxed">
+            Tam URL, port və ya <span class="font-mono text-zinc-300">*.</span> prefiksləri avtomatik təmizlənir və əsas domen üzrə subdomenlər indekslənir.
+          </p>
+        </div>
+
+        <!-- Loading Skeleton State -->
+        <div id="state-loading" class="hidden divide-y divide-zinc-800/60" aria-busy="true" aria-label="Yüklənir">
+          <div class="flex items-center justify-between px-4 h-11">
+            <div class="h-3.5 w-8 rounded bg-zinc-800/80 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-56 rounded bg-zinc-800/80 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-24 rounded bg-zinc-800/80 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-16 rounded bg-zinc-800/80 animate-pulse motion-reduce:animate-none"></div>
+          </div>
+          <div class="flex items-center justify-between px-4 h-11">
+            <div class="h-3.5 w-8 rounded bg-zinc-800/70 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-72 rounded bg-zinc-800/70 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-24 rounded bg-zinc-800/70 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-16 rounded bg-zinc-800/70 animate-pulse motion-reduce:animate-none"></div>
+          </div>
+          <div class="flex items-center justify-between px-4 h-11">
+            <div class="h-3.5 w-8 rounded bg-zinc-800/60 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-48 rounded bg-zinc-800/60 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-24 rounded bg-zinc-800/60 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-16 rounded bg-zinc-800/60 animate-pulse motion-reduce:animate-none"></div>
+          </div>
+          <div class="flex items-center justify-between px-4 h-11">
+            <div class="h-3.5 w-8 rounded bg-zinc-800/50 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-64 rounded bg-zinc-800/50 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-24 rounded bg-zinc-800/50 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-16 rounded bg-zinc-800/50 animate-pulse motion-reduce:animate-none"></div>
+          </div>
+          <div class="flex items-center justify-between px-4 h-11">
+            <div class="h-3.5 w-8 rounded bg-zinc-800/40 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-60 rounded bg-zinc-800/40 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-24 rounded bg-zinc-800/40 animate-pulse motion-reduce:animate-none"></div>
+            <div class="h-3.5 w-16 rounded bg-zinc-800/40 animate-pulse motion-reduce:animate-none"></div>
+          </div>
+        </div>
+
+        <!-- Empty Result / Empty Filter State -->
+        <div id="state-empty" class="hidden px-6 py-12 text-center space-y-3">
+          <p id="empty-title" class="text-sm font-medium text-zinc-200">
+            Uyğun subdomen tapılmadı
+          </p>
+          <p id="empty-subtitle" class="text-xs text-zinc-400">
+            Süzgəc sorğusunu dəyişdirin və ya sıfırlayın.
+          </p>
+          <button
+            id="reset-filter-btn"
+            type="button"
+            class="hidden inline-flex items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs font-medium text-zinc-200 hover:border-emerald-400/50 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          >
+            Süzgəci təmizlə
+          </button>
+        </div>
+
+        <!-- Results Table -->
+        <div id="table-wrapper" class="hidden overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-zinc-800/80 bg-zinc-950/40 text-xs font-medium text-zinc-400">
+                <th scope="col" class="w-14 py-2.5 pl-4 pr-3 text-right font-mono">#</th>
+                <th scope="col" class="py-2.5 px-3">Subdomen</th>
+                <th scope="col" class="w-44 py-2.5 px-3 whitespace-nowrap">Status</th>
+                <th scope="col" class="w-32 py-2.5 px-3 whitespace-nowrap">İlk Görülmə</th>
+                <th scope="col" class="w-24 py-2.5 pl-3 pr-4 text-right">Əməliyyat</th>
+              </tr>
+            </thead>
+            <tbody id="results-tbody" class="divide-y divide-zinc-800/60"></tbody>
+          </table>
+
+          <div
+            id="load-more-bar"
+            class="hidden flex items-center justify-between border-t border-zinc-800/80 bg-zinc-950/40 px-4 py-3 text-xs text-zinc-400"
+          >
+            <span id="rendered-info" class="font-mono tabular-nums"></span>
+            <button
+              id="load-more-btn"
+              type="button"
+              class="rounded-md border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-xs font-medium text-zinc-200 hover:border-emerald-400/50 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              Daha çox göstər
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-zinc-900 py-6 text-center text-xs text-zinc-500">
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 flex flex-wrap items-center justify-between gap-2">
+        <span>subjedi · Passiv Subdomen Kəşfiyyatı</span>
+        <span class="font-mono text-zinc-400">made by TuralAsgarovv</span>
+      </div>
+    </footer>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
